@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System.Reflection.Emit;
 using WebApplication1.Models;
 
@@ -18,7 +19,7 @@ namespace WebApplication1.Data
        : base(options)
         {
         }
-
+     
 
     }
 }

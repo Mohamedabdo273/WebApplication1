@@ -9,8 +9,8 @@
         public string Message { get; set; }
         public string Reply { get; set; }
         public bool Status { get; set; }
-        public string UserID { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public string? UserID { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
 
     }
 }
