@@ -1,4 +1,5 @@
-﻿using WebApplication1.Models;
+﻿using Stripe.Climate;
+using WebApplication1.Models;
 using WebApplication1.Repository.IRepository;
 using WebApplication1.Services.Iservices;
 
@@ -14,7 +15,7 @@ namespace WebApplication1.Services
             this._product = product;
         }
 
-        public async Task<Product> CreateProductAsync(Product product, IFormFile? productImg)
+        public async Task<Models.Product> CreateProductAsync(Models.Product product, IFormFile? productImg)
         {
             product.ImgUrl = await SaveImageAsync(productImg);
             _product.Create(product);
@@ -22,7 +23,7 @@ namespace WebApplication1.Services
             return product;
         }
 
-        public async Task<Product?> UpdateProductAsync(int productId, Product product, IFormFile? productImg)
+        public async Task<Models.Product?> UpdateProductAsync(int productId, Models.Product product, IFormFile? productImg)
         {
             var existingProduct = _product.GetOne(expression: p => p.Id == productId);
             if (existingProduct == null) return null;
@@ -94,9 +95,16 @@ namespace WebApplication1.Services
             }
         }
 
-        public Product GetProductById(int id)
+        public Models.Product GetProductById(int id)
         {
             return _product.GetOne(expression: e => e.Id == id);
         }
+        public IEnumerable<Models.Product> GetAllOrdersProduct()
+        {
+            return _product.Get();
+        }
+
+       
+       
     }
 }
