@@ -1,8 +1,11 @@
-﻿namespace WebApplication1.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebApplication1.Models
 {
     public class Product
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }          // مثال: iPhone 15 Pro Max
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
