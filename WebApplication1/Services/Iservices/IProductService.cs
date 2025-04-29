@@ -8,6 +8,6 @@ namespace WebApplication1.Services.Iservices
         Product GetProductById(int id);
         Task<Product?> UpdateProductAsync(int productId, Product product, IFormFile? productImg);  // Accept ID and updated product
         Task<bool> DeleteProductAsync(int productId);
-        IEnumerable<Models.Product> GetAllOrdersProduct();
+        IEnumerable<Models.Product> GetAllProduct();
     }
 }

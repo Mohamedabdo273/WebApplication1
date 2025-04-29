@@ -99,7 +99,7 @@ namespace WebApplication1.Services
         {
             return _product.GetOne(expression: e => e.Id == id);
         }
-        public IEnumerable<Models.Product> GetAllOrdersProduct()
+        public IEnumerable<Models.Product> GetAllProduct()
         {
             return _product.Get();
         }
