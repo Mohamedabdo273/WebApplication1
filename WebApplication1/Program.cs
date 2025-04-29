@@ -9,6 +9,7 @@ using WebApplication1.Repository;
 using WebApplication1.Repository.IRepository;
 using WebApplication1.Services;
 using WebApplication1.Services.Iservices;
+using WebApplication1.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,8 @@ builder.Services.Configure<IdentityOptions>(options =>
 {
     options.SignIn.RequireConfirmedEmail = true;
 });
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 builder.Services.AddScoped<IProduct, ProductRepository>();
 builder.Services.AddScoped<ICart, CartRepository>();
 builder.Services.AddScoped<IOrder, OrderRepository>();
