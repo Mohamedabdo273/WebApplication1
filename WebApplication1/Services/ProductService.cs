@@ -38,6 +38,10 @@ namespace WebApplication1.Services
             existingProduct.Discription = product.Discription;
             existingProduct.Price = product.Price;
             existingProduct.CategoryId = product.CategoryId;
+            existingProduct.Count = product.Count;
+            existingProduct.Model = product.Model;
+            existingProduct.Brand = product.Brand;
+            existingProduct.Discount = product.Discount;
 
             _product.Edit(existingProduct);
             _product.Commit();  // Use await if Commit is async
@@ -101,7 +105,7 @@ namespace WebApplication1.Services
         }
         public IEnumerable<Models.Product> GetAllProduct()
         {
-            return _product.Get();
+            return _product.Get([e=>e.Category]);
         }
 
        
