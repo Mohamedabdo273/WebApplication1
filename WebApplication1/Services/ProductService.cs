@@ -101,7 +101,7 @@ namespace WebApplication1.Services
 
         public Models.Product GetProductById(int id)
         {
-            return _product.GetOne(expression: e => e.Id == id);
+            return _product.GetOne([e=>e.Category],expression: e => e.Id == id);
         }
         public IEnumerable<Models.Product> GetAllProduct()
         {

@@ -30,6 +30,7 @@ namespace WebApplication1.Controllers
 
         // Get all products with optional filters
         [HttpGet("Products")]
+        [AllowAnonymous]
         public IActionResult GetProducts(string? search = null, int page = 1, string? category = null, decimal? minPrice = null, decimal? maxPrice = null)
         {
 
@@ -79,6 +80,7 @@ namespace WebApplication1.Controllers
 
         // Get product details by ID
         [HttpGet("Product/{id}")]
+        [AllowAnonymous]
         public IActionResult GetProductDetails(int id)
         {
             var product = _productService.GetProductById(id);
@@ -90,6 +92,7 @@ namespace WebApplication1.Controllers
                 Discount = product.Discount,
                 Img = product.ImgUrl,
                 CategoryName = product.Category.Name,
+                Count=product.Count,
                 Brand = product.Brand,
                 Model = product.Model
             };
@@ -101,7 +104,6 @@ namespace WebApplication1.Controllers
         [Authorize]
         public IActionResult AddToCart(int productId, int count)
         {
-
             var appUser = _userManager.GetUserId(User);
             if (appUser == null)
             {
@@ -109,11 +111,13 @@ namespace WebApplication1.Controllers
             }
 
             var productItem = _productService.GetProductById(productId);
+            if (productItem == null)
+            {
+                return NotFound(new { message = "Product not found." });
+            }
 
             var existingCart = _cartService.GetUserCart(appUser)
                                           .FirstOrDefault(e => e.ProductId == productId);
-
-            int totalCount = (existingCart?.Count ?? 0) + count;
 
             if (existingCart == null)
             {
@@ -127,9 +131,9 @@ namespace WebApplication1.Controllers
             else
             {
                 existingCart.Count += count;
+                _cartService.UpdateCartItem(existingCart.Id, existingCart);
             }
             return Ok(new { message = "Product added to cart." });
-
         }
 
 
@@ -141,8 +145,16 @@ namespace WebApplication1.Controllers
         {
 
             var userId = _userManager.GetUserId(User);
-            var cartItems = _cartService.GetUserCart(userId).ToList(); 
-            return Ok(cartItems);
+            var cartItems = _cartService.GetUserCart(userId).ToList();
+            var item = cartItems.Select(item => new
+            {
+                Id=item.Id,
+                count=item.Count,
+                ProductId=item.ProductId,
+                ProductName=item.Product.Name,
+                ProductImg=item.Product.ImgUrl
+            }).ToList();
+            return Ok(item);
 
         }
 
@@ -174,19 +186,21 @@ namespace WebApplication1.Controllers
         [Authorize]
         public IActionResult DecrementCartItem(int id)
         {
-
             var cartItem = _cartService.GetCartItem(id);
-            if (cartItem.Count == 0)
+            if (cartItem == null)
+            {
+                return NotFound(new { message = "Cart item not found." });
+            }
+
+            cartItem.Count--;
+            if (cartItem.Count <= 0)
             {
                 _cartService.RemoveFromCart(id);
                 return Ok(new { message = "Cart item removed." });
             }
 
-            cartItem.Count--;
             _cartService.UpdateCartItem(id, cartItem);
-
             return Ok(new { message = "Cart item decremented." });
-
         }
 
         // Delete item from the cart

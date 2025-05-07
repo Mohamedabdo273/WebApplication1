@@ -19,12 +19,12 @@ namespace WebApplication1.Services
         public IEnumerable<Cart> GetUserCart(string userId)
         {
             if (string.IsNullOrWhiteSpace(userId)) throw new ArgumentNullException(nameof(userId));
-            return _cart.Get(expression: e => e.UserID == userId);
+            return _cart.Get([e => e.Product],expression: e => e.UserID == userId);
         }
 
         public Cart GetCartItem(int cartId)
         {
-            return _cart.GetOne(expression: e => e.Id == cartId);
+            return _cart.GetOne([e=>e.Product],expression: e => e.Id == cartId);
         }
 
         public void AddToCart(Cart cartItem)

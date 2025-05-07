@@ -89,6 +89,7 @@ UserManager<ApplicationUser> userManager,
                         UserID = appUserId,
                         ProductID = item.ProductId,
                         Count = item.Count,
+                        Status=OrderStatus.Processing,
                         Date = DateTime.Now
                     });
 

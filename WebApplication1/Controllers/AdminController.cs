@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Models;
 using WebApplication1.Services.Iservices;
+using WebApplication1.Utility;
 
 namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(Roles =SD.adminRole)]
     public class AdminController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -22,6 +24,7 @@ namespace WebApplication1.Controllers
         }
 //------------------------------Category------------------------------------
          [HttpGet("GetAll")]
+        [AllowAnonymous] 
         public IActionResult GetAll()
         {
             var categories = categoryService.GetAllCategories();
@@ -55,7 +58,7 @@ namespace WebApplication1.Controllers
         public IActionResult AllProducts(int pageNumber = 1, string? search = null)
         {
             int pageSize = 10;
-            var allProducts = _productService.GetAllOrdersProduct();
+            var allProducts = _productService.GetAllProduct();
             if (!string.IsNullOrWhiteSpace(search))
             {
                 search = search.ToLower();
