@@ -11,7 +11,7 @@ namespace WebApplication1.Models
         public decimal? Discount { get; set; }
         public string? Discription { get; set; }
         public string? ImgUrl { get; set; }
-        public int Count { get; set; }
+        public int Count { get; set; } //Stock
 
         public string? Model { get; set; }         // مثال: A3102
         public string? Brand { get; set; }         // مثال: Apple, HP, Samsung

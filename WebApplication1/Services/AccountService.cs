@@ -39,7 +39,8 @@ namespace WebApplication1.Services
             {
                 FullName = userDto.FullName,
                 Email = userDto.Email,
-                UserName = userDto.Email            
+                UserName = userDto.Email          
+                           
             };
             var result = await _userManager.CreateAsync(user, userDto.Password);
 

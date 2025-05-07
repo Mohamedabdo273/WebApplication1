@@ -43,8 +43,8 @@ UserManager<ApplicationUser> userManager,
                 PaymentMethodTypes = new List<string> { "card" },
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
-                SuccessUrl = $"http://localhost:4200/success", // Redirect to Angular success page
-                CancelUrl = $"http://localhost:4200/cart", // Redirect to cart if canceled
+                SuccessUrl = $"http://localhost:4200/success",
+                CancelUrl = $"http://localhost:4200/cart", 
             };
 
             foreach (var item in cartItems)
@@ -61,7 +61,7 @@ UserManager<ApplicationUser> userManager,
                         {
                             Name = item.Product.Name,
                         },
-                        UnitAmount = (long)(item.Product.Price * 100),
+                        UnitAmount = (long)(item.Product.Price * (1 - item.Product.Discount / 100)) *100,
                     },
                     Quantity = item.Count,
                 });
@@ -83,7 +83,7 @@ UserManager<ApplicationUser> userManager,
             {
                 if (item.Product != null)
                 {
-                    // Create an order
+                    
                     await _orderService.AddOrderAsync(new Models.Order
                     {
                         UserID = appUserId,
@@ -93,7 +93,7 @@ UserManager<ApplicationUser> userManager,
                         Date = DateTime.Now
                     });
 
-                    // Update product stock
+                   
                     var productItem = _productService.GetProductById(item.Product.Id);
                     if (productItem != null)
                     {

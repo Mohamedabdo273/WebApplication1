@@ -4,7 +4,7 @@
     {
         public int Id { get;set; }
         public int Count { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public int ProductID { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Pending; 
 

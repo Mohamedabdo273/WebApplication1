@@ -28,7 +28,6 @@ namespace WebApplication1.Controllers
             this.orderService = orderService;
         }
 
-        // Get all products with optional filters
         [HttpGet("Products")]
         [AllowAnonymous]
         public IActionResult GetProducts(string? search = null, int page = 1, string? category = null, decimal? minPrice = null, decimal? maxPrice = null)

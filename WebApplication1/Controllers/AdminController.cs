@@ -9,7 +9,7 @@ namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles =SD.adminRole)]
+    [Authorize(Roles =SD.adminRole)]
     public class AdminController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -54,7 +54,7 @@ namespace WebApplication1.Controllers
             return Ok($"Category with ID {categoryId} deleted successfully.");
         }
       //  ------------------------------------------Product---------------------------------------
-[HttpGet("AllProducts")]
+         [HttpGet("AllProducts")]
         public IActionResult AllProducts(int pageNumber = 1, string? search = null)
         {
             int pageSize = 10;
